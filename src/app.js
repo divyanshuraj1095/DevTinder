@@ -1,8 +1,16 @@
 const express = require('express');
 
+const {authAdmin, authUser} = require("./middlewares/auth.js");
+
 const app = express();
 
-app.use("/user", (req, res, next)=>{
+app.use("/admin", authAdmin);
+
+app.get("/admin/getAllData", (req, res, next)=>{
+       res.send("All data send !!");
+});
+
+app.use("/user", authUser,(req, res, next)=>{
     console.log("response 1");
     next();
 },
