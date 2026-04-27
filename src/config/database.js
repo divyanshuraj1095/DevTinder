@@ -6,12 +6,7 @@ const connectDB = async ()=>{
 
 module.exports = connectDB;
 
-connectDB()
-.then(()=>{
-    console.log("DataBase Successfully Connected!!");
-}).catch((err)=>{
-    console.log("Error Connecting to DataBase");
-})
+
     
 
 
