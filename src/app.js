@@ -24,6 +24,24 @@ app.post("/signup", async (req, res)=>{
     
 });
 
+app.get("/user", async (req, res)=>{
+    const userMail = req.body.eMail;
+
+    try{
+        const users = await User.find({eMail : userMail});
+        if(users.length === 0){
+            res.status(404).send("User not found");
+        }
+        else{
+            res.send(users);
+        }
+        
+    }
+    catch (err) {
+        res.status(400).send("Something Went Wrong !!");
+    }
+});
+
 connectDB()
 .then(()=>{
     console.log("DataBase Successfully Connected!!");
