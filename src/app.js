@@ -75,6 +75,21 @@ app.get("/user", async (req, res)=>{
     }
 });
 
+app.delete("/user", async (req, res)=>{
+    const userId = req.body.userId;
+
+    try{
+        const user = await User.findByIdAndDelete(userId);// const user = await User.findByIdAndDelete({_id : userId});  both are same
+        if(user.length === 0){
+            res.status(404).send("User Not found");
+        }
+        res.send("User Successfully deleted!!");
+    }
+    catch(err) {
+        res.status(400).send("Something went wrong");
+    }
+});
+
 connectDB()
 .then(()=>{
     console.log("DataBase Successfully Connected!!");
