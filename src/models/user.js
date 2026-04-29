@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const validator = require("validator");
+const { default: isEmail } = require("validator/lib/isEmail");
 
 const userSchema = new mongoose.Schema({
     firstName : {
@@ -17,12 +19,20 @@ const userSchema = new mongoose.Schema({
         lower : true,
         trim : true,
         unique : true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Enter correct email"+value);
+            }
+        }
     },
     password : {
         type : String,
         required : true,
-        minLength : 8,
-        maxLength : 12
+        validate(value){
+            if(!validator.isStrongPassword(value)){
+                throw new Error("The password is too weak!"+value);
+            }
+        }
     },
     age : {
         type : Number,
@@ -31,6 +41,11 @@ const userSchema = new mongoose.Schema({
     photo : {
         type: String,
         default : "https://media.istockphoto.com/id/2014684899/vector/placeholder-avatar-female-person-default-woman-avatar-image-gray-profile-anonymous-face.jpg?s=612x612&w=0&k=20&c=D-dk9ek0_jb19TiMVNVmlpvYVrQiFiJmgGmiLB5yE4w=",
+        validate(value){
+            if(!validator.isURL(value)){
+                throw new Error("Enter valid URL"+value);
+            }
+        }
     },
     about : {
         type : String,
