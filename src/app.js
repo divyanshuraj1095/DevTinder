@@ -24,7 +24,7 @@ app.post("/signup", async (req, res)=>{
     
 });
 
-app.get("/userID", async(req, res)=>{
+app.get("/userId", async(req, res)=>{
     const userId = req.body._id;
     try{
         const users = await User.findById({_id : userId});
@@ -89,6 +89,23 @@ app.delete("/user", async (req, res)=>{
         res.status(400).send("Something went wrong");
     }
 });
+
+app.patch("/user", async (req, res)=>{
+    const userId = req.body.userId;
+    const data = req.body;
+    console.log(data);
+
+    try{
+       await User.findByIdAndUpdate(userId, data, {
+        runValidators : true,
+       });
+       res.send("User Updated Successfully!!");
+
+    }
+    catch (err) {
+        res.status(400).send("Something Went wrong");
+    }
+})
 
 connectDB()
 .then(()=>{
