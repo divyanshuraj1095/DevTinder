@@ -5,21 +5,32 @@ const {authAdmin, authUser} = require("./middlewares/auth.js");
 const User = require("./models/user.js");
 
 const connectDB = require("./config/database.js");
+const { validateSinUp } = require('./utils/validate.js');
+const bcrypt = require("bcrypt");
 
 const app = express();
 
 app.use(express.json());
 
 app.post("/signup", async (req, res)=>{
-
-    console.log(req.body);
-    const user = new User(req.body);
     try{
+       validateSinUp(req);
+
+       const {firstName, lastName, eMail, password} = req.body;
+
+       const hashPassword = await bcrypt.hash(password, 10);
+       const user = new User({
+          firstName,
+          lastName,
+          eMail,
+          password : hashPassword,
+       });
+    
        await user.save();
        res.send("User added successfully!!");
     }
     catch (err) {
-        res.status(400).send(err.message)
+        res.status(400).send("Error: "+err.message)
     }
     
 });

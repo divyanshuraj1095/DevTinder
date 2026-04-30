@@ -2,7 +2,7 @@ const validator = require("validator");
 
 const validateSinUp = (req) =>{
     const {firstName, lastName, eMail, password} = req.body;
-    if(!firstName || lastName){
+    if(!firstName || !lastName){
         throw new Error("Both the names are required!!");
     }
     else if(!validator.isEmail(eMail)){
