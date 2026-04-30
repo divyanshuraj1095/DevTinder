@@ -4,6 +4,8 @@ const {authAdmin, authUser} = require("./middlewares/auth.js");
 
 const User = require("./models/user.js");
 
+const validator = require("validator");
+
 const connectDB = require("./config/database.js");
 const { validateSinUp } = require('./utils/validate.js');
 const bcrypt = require("bcrypt");
@@ -11,6 +13,36 @@ const bcrypt = require("bcrypt");
 const app = express();
 
 app.use(express.json());
+
+app.post("/login", async(req, res)=>{
+    try{
+        const {eMail,password} = req.body;
+
+        console.log("1");
+
+        if(!validator.isEmail(eMail)){
+            throw new Error("Email is in the wrong format");
+        }
+
+        console.log("2");
+        const user = await User.findOne({eMail:eMail});
+        if(!user){
+            throw new Error("Invalid Credentials");
+        }
+        console.log("3");
+        const valid = await bcrypt.compare(password, user.password);
+        console.log("4");
+        if(valid){
+            res.send("Loggin Successful!!");    
+        }
+        else{
+            throw new Error("Inavlid Credentials");
+        }   
+    }
+    catch (err) {
+        res.status(400).send("Error: "+err.message);
+    }
+})
 
 app.post("/signup", async (req, res)=>{
     try{
