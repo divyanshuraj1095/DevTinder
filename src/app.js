@@ -1,11 +1,7 @@
 const express = require('express');
-
 const {authUser} = require("./middlewares/auth.js");
-
 const User = require("./models/user.js");
-
 const validator = require("validator");
-
 const connectDB = require("./config/database.js");
 const { validateSinUp } = require('./utils/validate.js');
 const bcrypt = require("bcrypt");
@@ -13,9 +9,7 @@ const jwt = require("jsonwebtoken");
 const cookie = require("cookie-parser");
 
 const app = express();
-
 app.use(cookie());
-
 app.use(express.json());
 
 app.post("/login", async(req, res)=>{
@@ -29,7 +23,7 @@ app.post("/login", async(req, res)=>{
         if(!user){
             throw new Error("Invalid Credentials");
         }
-        const valid = await bcrypt.compare(password, user.password);
+        const valid = await user.bcryptCompare(password);
         if(!valid){
             throw new Error("Inavlid Credentials");   
         }
