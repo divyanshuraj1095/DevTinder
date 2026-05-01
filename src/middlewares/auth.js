@@ -13,7 +13,7 @@ const authUser = async (req, res, next) =>{
        if(!user){
         throw new Error("User doesnt exist");
        }
-       req.user = user;
+       req.user = user; //we are attaching user details on req...
        next();
 
     }

@@ -33,9 +33,9 @@ app.post("/login", async(req, res)=>{
         if(!valid){
             throw new Error("Inavlid Credentials");   
         }
-        const token = await jwt.sign({_id : user._id}, "DEV@Tinder123");
+        const token = await jwt.sign({_id : user._id}, "DEV@Tinder123", {expiresIn : "7d"});
 
-        res.cookie("token", token);
+        res.cookie("token", token, {expires : "7d"});
         res.send("Loggin Successful!!");
     }
     catch (err) {
@@ -55,7 +55,11 @@ app.get("/profile", authUser , async(req, res)=>{
 
 });
 
+app.post("/sendRequest",authUser, async (req, res)=>{
+    const user = req.user ///we have attached user info in the middleware!!
 
+    res.send(user.firstName+" "+"has sent you a connection request!");
+})
 
 app.post("/signup", async (req, res)=>{
     try{
