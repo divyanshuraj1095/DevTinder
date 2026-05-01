@@ -9,8 +9,12 @@ const validator = require("validator");
 const connectDB = require("./config/database.js");
 const { validateSinUp } = require('./utils/validate.js');
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cookie = require("cookie-parser");
 
 const app = express();
+
+app.use(cookie());
 
 app.use(express.json());
 
@@ -18,31 +22,53 @@ app.post("/login", async(req, res)=>{
     try{
         const {eMail,password} = req.body;
 
-        console.log("1");
-
         if(!validator.isEmail(eMail)){
             throw new Error("Email is in the wrong format");
         }
-
-        console.log("2");
         const user = await User.findOne({eMail:eMail});
         if(!user){
             throw new Error("Invalid Credentials");
         }
-        console.log("3");
         const valid = await bcrypt.compare(password, user.password);
-        console.log("4");
-        if(valid){
-            res.send("Loggin Successful!!");    
+        if(!valid){
+            throw new Error("Inavlid Credentials");   
         }
-        else{
-            throw new Error("Inavlid Credentials");
-        }   
+        const token = await jwt.sign({_id : user._id}, "DEV@Tinder123");
+
+        res.cookie("token", token);
+        res.send("Loggin Successful!!");
     }
     catch (err) {
         res.status(400).send("Error: "+err.message);
     }
-})
+});
+
+app.get("/profile", async(req, res)=>{
+    try{
+    const cookie = req.cookies;     
+    const {token} = cookie;
+    if(!token){
+        throw new Error("Invalid Token");
+    }
+
+    const decodedInfo = await jwt.verify(token,"DEV@Tinder123");
+    console.log(decodedInfo);
+
+    const {_id} = decodedInfo;
+
+    const user = await User.findById(_id);
+    if(!user){
+        throw new Error("User doesnt exist");
+    }
+    res.send(user);
+   }
+   catch(err) {
+    res.status(400).send("ERROR: "+err.message);
+   }
+
+});
+
+
 
 app.post("/signup", async (req, res)=>{
     try{
