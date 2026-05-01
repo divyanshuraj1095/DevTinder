@@ -1,6 +1,6 @@
 const express = require('express');
 
-const {authAdmin, authUser} = require("./middlewares/auth.js");
+const {authUser} = require("./middlewares/auth.js");
 
 const User = require("./models/user.js");
 
@@ -43,23 +43,10 @@ app.post("/login", async(req, res)=>{
     }
 });
 
-app.get("/profile", async(req, res)=>{
+app.get("/profile", authUser , async(req, res)=>{
     try{
-    const cookie = req.cookies;     
-    const {token} = cookie;
-    if(!token){
-        throw new Error("Invalid Token");
-    }
-
-    const decodedInfo = await jwt.verify(token,"DEV@Tinder123");
-    console.log(decodedInfo);
-
-    const {_id} = decodedInfo;
-
-    const user = await User.findById(_id);
-    if(!user){
-        throw new Error("User doesnt exist");
-    }
+    
+    const user = req.user;
     res.send(user);
    }
    catch(err) {
