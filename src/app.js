@@ -33,9 +33,9 @@ app.post("/login", async(req, res)=>{
         if(!valid){
             throw new Error("Inavlid Credentials");   
         }
-        const token = await jwt.sign({_id : user._id}, "DEV@Tinder123", {expiresIn : "7d"});
+        const token = await user.getJWT();
 
-        res.cookie("token", token, {expires : "7d"});
+        res.cookie("token", token);
         res.send("Loggin Successful!!");
     }
     catch (err) {
