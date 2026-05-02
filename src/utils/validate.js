@@ -13,6 +13,20 @@ const validateSinUp = (req) =>{
     }
 }
 
+const validateUpdate = (req) =>{
+    try{
+       const editValid = ["firstName", "lastName", "about", "skills", "gender", "photoUrl", "age"];
+
+       const isValidToEdit = Object.keys(req.body).every((k) => editValid.includes(k));
+
+       return isValidToEdit;
+    }
+    catch{
+        res.status(400).send("ERROR: "+err.message);
+    }
+}
+
 module.exports = {
     validateSinUp,
+    validateUpdate
 }

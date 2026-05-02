@@ -2,8 +2,9 @@ const express = require("express");
 const profileRouter = express.Router();
 const User = require("../models/user.js");
 const {authUser} = require("../middlewares/auth.js");
+const { validateUpdate } = require("../utils/validate.js");
 
-profileRouter.get("/profile", authUser , async(req, res)=>{
+profileRouter.get("/profile/view", authUser , async(req, res)=>{
     try{
     
     const user = req.user;
@@ -15,26 +16,24 @@ profileRouter.get("/profile", authUser , async(req, res)=>{
 
 });
 
-profileRouter.patch("/user/:userId", async (req, res)=>{
-    const userId = req.params.userId;
-    const data = req.body;
+profileRouter.patch("/profile/edit", authUser ,async (req, res)=>{
 
     try{
-       const ALLOWED_UPDATES = ["gender", "age", "about", "photo", "skills"];
-       const isUpdateAllowed = Object.keys(data).every((k)=> ALLOWED_UPDATES.includes(k));
+     if(!validateUpdate(req)){
+        throw new Error("Field can't be edited!!")
+     }
 
-       if(!isUpdateAllowed){
-        throw new Error("Update not Allowed");
-       }
+     const loggedUser = req.user; //user attached to middleware
 
-       await User.findByIdAndUpdate(userId, data, {
-        runValidators : true,
-       });
-       res.send("User Updated Successfully!!");
+     Object.keys(req.body).forEach((key) => loggedUser[key] = req.body[key]);
+
+     await loggedUser.save();
+
+     res.send("Update Successful");
 
     }
-    catch (err) {
-        res.status(400).send("Something Went wrong");
+    catch(err){
+        res.status(400).send("Error: "+err.message);
     }
 })
 
