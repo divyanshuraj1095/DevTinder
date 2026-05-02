@@ -1,5 +1,6 @@
 const validator = require("validator");
 
+
 const validateSinUp = (req) =>{
     const {firstName, lastName, eMail, password} = req.body;
     if(!firstName || !lastName){
@@ -25,6 +26,15 @@ const validateUpdate = (req) =>{
         res.status(400).send("ERROR: "+err.message);
     }
 }
+
+// const validatePassUpdate = (req) =>{
+//     try{
+//         const isCorrect = bcrypt.compare()
+//     }
+//     catch(err) {
+//         res.status(400).send("ERROR: "+err.message);
+//     }
+// }
 
 module.exports = {
     validateSinUp,

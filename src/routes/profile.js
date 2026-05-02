@@ -3,6 +3,7 @@ const profileRouter = express.Router();
 const User = require("../models/user.js");
 const {authUser} = require("../middlewares/auth.js");
 const { validateUpdate } = require("../utils/validate.js");
+const bcrypt = require("bcrypt");
 
 profileRouter.get("/profile/view", authUser , async(req, res)=>{
     try{
@@ -37,18 +38,24 @@ profileRouter.patch("/profile/edit", authUser ,async (req, res)=>{
     }
 })
 
-profileRouter.delete("/user", async (req, res)=>{
-    const userId = req.body.userId;
-
+profileRouter.patch("/profile/password", authUser ,async (req, res)=>{
     try{
-        const user = await User.findByIdAndDelete(userId);// const user = await User.findByIdAndDelete({_id : userId});  both are same
-        if(user.length === 0){
-            res.status(404).send("User Not found");
-        }
-        res.send("User Successfully deleted!!");
+       const user = req.user; //from middleware (authUser)
+       const password = user.password
+
+       const isValid = bcrypt.compare(password, req.body);
+       if(!isValid){
+        throw new Error("Wrong password!!");
+       }
+
+       
+
+       await user.save();
+
+       res.send("Password Updated Successfully")
     }
     catch(err) {
-        res.status(400).send("Something went wrong");
+        res.status(400).send("ERROR: "+err.message);
     }
 });
 
