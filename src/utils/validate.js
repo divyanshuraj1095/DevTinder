@@ -1,4 +1,5 @@
 const validator = require("validator");
+const bcrypt = require("bcrypt")
 
 
 const validateSinUp = (req) =>{
@@ -27,16 +28,10 @@ const validateUpdate = (req) =>{
     }
 }
 
-// const validatePassUpdate = (req) =>{
-//     try{
-//         const isCorrect = bcrypt.compare()
-//     }
-//     catch(err) {
-//         res.status(400).send("ERROR: "+err.message);
-//     }
-// }
+
 
 module.exports = {
     validateSinUp,
-    validateUpdate
+    validateUpdate,
+    
 }
