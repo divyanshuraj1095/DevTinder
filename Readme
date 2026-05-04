@@ -1,0 +1,78 @@
+# 🚀 DevTinder
+
+DevTinder is a full-stack developer networking platform that allows developers to connect, interact, and collaborate based on their skills and interests.
+
+---
+
+## 🌟 Features
+
+### 👤 User
+- User authentication (Signup/Login)
+- Create and update developer profile
+- View other developers
+- Send connection requests
+- Accept/Reject requests
+
+### 🔗 Networking
+- Match developers based on skills/interests
+- View connections
+- Explore new developers
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- CSS3
+
+### Backend
+- Node.js
+- Express.js
+
+### Database
+- MongoDB (Mongoose)
+
+### Authentication
+- JWT (JSON Web Tokens)
+
+---
+
+## ⚙️ Setup Instructions
+
+### 🔹 Clone the repository
+```bash
+git clone https://github.com/divyanshuraj1095/DevTinder.git
+cd DevTinder
+
+🔧 Backend Setup
+cd backend
+npm install
+
+🌐 Environment Variables
+Backend
+PORT
+MONGO_URI
+JWT_SECRET
+
+Frontend
+VITE_BACKEND_URL
+
+Run backend:
+npm run dev (nodemon)
+
+🚀 Future Improvements
+Real-time chat system
+Advanced matching algorithm
+Notifications system
+Profile recommendations
+
+DevTinder/
+│── backend/
+│── frontend/
+│── README.md
+
+📬 Contact
+GitHub: https://github.com/divyanshuraj1095
+LinkedIn: https://www.linkedin.com/
+
