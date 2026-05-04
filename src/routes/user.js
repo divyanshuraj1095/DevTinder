@@ -11,7 +11,7 @@ userRouter.get("/user/request/received", authUser, async (req, res)=>{
             toUserId : user._id,
             status : "interested"
 
-        }).populate("fromUserId", ["firstName", "lastName", "age", "gender", "about"]);
+        }).populate("fromUserId", ["firstName", "lastName", "age", "gender", "about", "photoUrl", "skills"]);
 
         if(!connectionRequest){
             throw new Error("No Pending Requests!!");
@@ -27,5 +27,41 @@ userRouter.get("/user/request/received", authUser, async (req, res)=>{
         res.status(400).send("ERROR: "+err.message);
     }
 });
+
+userRouter.get("/user/connections", authUser, async(req, res)=>{
+    try{
+        const loggedUser = req.user;
+
+        const connectionRequest = await ConnectionRequest.find({
+            $or : [
+                {
+                    fromUserId : loggedUser._id, status : "accepted"
+                },
+                {
+                    toUserId : loggedUser._id, status : "accepted"
+                }
+            ]
+        }).populate("fromUserId", ["firstName", "lastName", "age", "gender", "about", "photoUrl", "skills"])
+          .populate("toUserId", ["firstName", "lastName", "age", "gender", "about", "photoUrl", "skills"]);
+
+          console.log("wdwww")
+
+        const data = connectionRequest.map((x)=>{
+            if(x.fromUserId._id.toString() === loggedUser._id.toString()){
+                return x.toUserId;
+            }
+            return x.fromUserId;
+        })
+        console.log("wdwww")
+
+        res.json({
+            message : "Your Connections",
+            data
+        })
+    }
+    catch(err){
+        res.status(400).send("ERROR: "+err.message);
+    }
+})
 
 module.exports = userRouter;
