@@ -2,6 +2,7 @@ const express = require("express");
 const userRouter = express.Router();
 const {authUser} = require("../middlewares/auth.js")
 const ConnectionRequest = require("../models/connectionRequest.js");
+const User = require("../models/user.js");
 
 userRouter.get("/user/request/received", authUser, async (req, res)=>{
     try{
@@ -61,6 +62,36 @@ userRouter.get("/user/connections", authUser, async(req, res)=>{
     }
     catch(err){
         res.status(400).send("ERROR: "+err.message);
+    }
+})
+
+userRouter.get("/feed", authUser, async (req, res)=>{
+    try{
+       const loggedUser = req.user;
+
+       const connectionRequest = await ConnectionRequest.find({
+        $or : [{fromUserId : loggedUser}, {toUserId : loggedUser}]
+       }).select("fromUserId  toUserId");
+
+       const hideFromFeed = new Set();
+
+       connectionRequest.forEach((x) =>{
+        hideFromFeed.add(x.fromUserId.toString());
+        hideFromFeed.add(x.toUserId.toString());
+       });
+
+       const user = await User.find({
+        $and : [{
+         _id : {$nin : Array.from(hideFromFeed)},
+         _id : {$ne : loggedUser._id}
+        }]}).select("firstName lastName age gender about photoUrl skills");
+
+        res.send(user);
+    }
+    catch(err){
+        res.status(400).json({
+            message : "Error"+err.message
+        })
     }
 })
 
