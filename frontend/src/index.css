@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-900 text-slate-100 font-inter antialiased min-h-screen selection:bg-brand-purple selection:text-white;
+    overflow-x: hidden;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-slate-800/60 backdrop-blur-md border border-slate-700/50 shadow-card;
+  }
+  
+  .glass-card {
+    @apply bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 shadow-card rounded-2xl overflow-hidden;
+  }
+
+  .glass-panel {
+    @apply bg-slate-900/80 backdrop-blur-2xl border border-slate-800 shadow-xl;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-brand;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300 hover:shadow-glow-purple hover:-translate-y-1;
+  }
+  
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Custom Animations that might need CSS beyond Tailwind */
+.card-swipe-leave {
+  animation: swipeLeave 0.5s ease-in forwards;
+}
+
+@keyframes swipeLeave {
+  to {
+    transform: translateX(200%) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+.card-swipe-leave-left {
+  animation: swipeLeaveLeft 0.5s ease-in forwards;
+}
+
+@keyframes swipeLeaveLeft {
+  to {
+    transform: translateX(-200%) rotate(-20deg);
+    opacity: 0;
+  }
+}

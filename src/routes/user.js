@@ -78,7 +78,7 @@ userRouter.get("/feed", authUser, async (req, res)=>{
        const skip = (page-1)*limit;
 
        const connectionRequest = await ConnectionRequest.find({
-        $or : [{fromUserId : loggedUser}, {toUserId : loggedUser}]
+        $or : [{fromUserId : loggedUser._id}, {toUserId : loggedUser._id}]
        }).select("fromUserId  toUserId");
 
        const hideFromFeed = new Set();
@@ -89,10 +89,10 @@ userRouter.get("/feed", authUser, async (req, res)=>{
        });
 
        const user = await User.find({
-        $and : [{
-         _id : {$nin : Array.from(hideFromFeed)},
-         _id : {$ne : loggedUser._id}
-        }]}).select("firstName lastName age gender about photoUrl skills")
+        $and : [
+         { _id : {$nin : Array.from(hideFromFeed)} },
+         { _id : {$ne : loggedUser._id} }
+        ]}).select("firstName lastName age gender about photoUrl skills")
         .limit(limit)
         .skip(skip);
 
