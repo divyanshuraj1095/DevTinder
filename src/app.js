@@ -1,4 +1,6 @@
 const express = require('express');
+const cors = require("cors");
+require("dotenv").config();
 const connectDB = require("./config/database.js");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-parser");
@@ -11,12 +13,18 @@ const chatRouter = require("./routes/chat.js")
 const app = express();
 app.use(cookie());
 app.use(express.json());
+app.use(cors({
+   origin: "http://localhost:5173",
+   credentials: true
+}));
+
 
 app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
 app.use('/',userRouter);
 app.use('/',chatRouter);
+
 
 connectDB()
 .then(()=>{
@@ -25,7 +33,7 @@ connectDB()
     console.log("Listening to port 7777...");
 });
 }).catch((err)=>{
-    console.log("Error Connecting to DataBase");
+    console.log(err.message+"Error Connecting to DataBase");
 });
 
 

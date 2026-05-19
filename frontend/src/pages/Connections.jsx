@@ -4,6 +4,7 @@ import { ConnectionCard } from '../components/cards/ConnectionCard';
 import { SearchBar } from '../components/ui/SearchBar';
 import { EmptyState } from '../components/ui/EmptyState';
 import { getConnections } from '../services/connection.service';
+import { pruneSentRequests } from '../utils/sentRequestsStorage';
 import { Users } from 'lucide-react';
 
 export const Connections = () => {
@@ -15,7 +16,9 @@ export const Connections = () => {
     const fetchConnections = async () => {
       try {
         const data = await getConnections();
-        setConnections(Array.isArray(data) ? data : []);
+        const list = Array.isArray(data) ? data : [];
+        setConnections(list);
+        pruneSentRequests(list.map((c) => c._id));
       } catch (error) {
         console.error("Failed to fetch connections", error);
       } finally {
@@ -65,7 +68,7 @@ export const Connections = () => {
             title={search ? "No connections found" : "No connections yet"}
             message={search ? `No results for "${search}"` : "Start swiping to build your network!"}
             actionText={!search ? "Find Developers" : ""}
-            actionLink="/dashboard"
+            actionLink="/feed"
           />
         )}
       </div>

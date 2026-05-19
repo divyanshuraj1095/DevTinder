@@ -77,10 +77,10 @@ export const Landing = () => {
               Get Started for Free
             </Link>
             <Link
-              to="/explore"
+              to="/login"
               className="px-8 py-4 glass border-slate-700 text-slate-200 rounded-xl text-lg font-semibold hover:bg-slate-800 transition-all"
             >
-              Explore Developers
+              Sign in
             </Link>
           </motion.div>
         </div>
@@ -105,8 +105,8 @@ export const Landing = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <FeatureCard 
               icon={Zap}
-              title="Smart Matching"
-              description="Our algorithm connects you with developers whose skills complement yours perfectly for your next big project."
+              title="Skill-based discovery"
+              description="Browse developers in your feed, see their stack, and send a connection request when someone fits your goals."
               delay={0.1}
             />
             <FeatureCard 

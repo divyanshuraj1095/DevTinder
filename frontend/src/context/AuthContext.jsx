@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import { login as loginService, signup as signupService, logout as logoutService } from '../services/auth.service';
 import { getProfile } from '../services/user.service';
 
@@ -8,12 +8,17 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const refreshUser = useCallback(async () => {
+    const userData = await getProfile();
+    setUser(userData);
+    return userData;
+  }, []);
+
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const userData = await getProfile();
-        setUser(userData);
-      } catch (error) {
+        await refreshUser();
+      } catch {
         setUser(null);
       } finally {
         setLoading(false);
@@ -21,19 +26,17 @@ export const AuthProvider = ({ children }) => {
     };
 
     initAuth();
-  }, []);
+  }, [refreshUser]);
 
   const login = async (email, password) => {
     await loginService(email, password);
-    const userData = await getProfile();
-    setUser(userData);
+    await refreshUser();
   };
 
   const signup = async (userData) => {
     await signupService(userData);
     await loginService(userData.email, userData.password);
-    const userDataProfile = await getProfile();
-    setUser(userDataProfile);
+    await refreshUser();
   };
 
   const logout = async () => {
@@ -42,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, setUser, loading, login, signup, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

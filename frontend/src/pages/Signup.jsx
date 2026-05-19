@@ -23,8 +23,8 @@ export const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.firstName || !formData.email || !formData.password) {
-      toast.error("Please fill in all required fields");
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password) {
+      toast.error('Please fill in all required fields');
       return;
     }
     
@@ -32,9 +32,9 @@ export const Signup = () => {
     try {
       await signup(formData);
       toast.success("Account created successfully!");
-      navigate('/dashboard');
+      navigate('/feed');
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to create account.");
+      toast.error(error.parsedMessage || 'Failed to create account.');
     } finally {
       setIsLoading(false);
     }

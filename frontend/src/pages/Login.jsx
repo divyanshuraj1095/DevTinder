@@ -24,9 +24,9 @@ export const Login = () => {
     try {
       await login(email, password);
       toast.success("Successfully logged in!");
-      navigate('/dashboard');
+      navigate('/feed');
     } catch (error) {
-      toast.error(error.response?.data?.message || "Failed to login. Try again.");
+      toast.error(error.parsedMessage || 'Failed to login. Try again.');
     } finally {
       setIsLoading(false);
     }
@@ -71,7 +71,7 @@ export const Login = () => {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-slate-300">Password</label>
-                <a href="#" className="text-sm text-brand-purple hover:text-purple-400">Forgot password?</a>
+                <span className="text-sm text-slate-600">Forgot password?</span>
               </div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">

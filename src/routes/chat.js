@@ -61,21 +61,26 @@ chatRouter.post("/message", authUser, async(req, res)=>{
     }
 });
 
-chatRouter.get("/messages/:UserId", authUser, async(req, res)=>{
+chatRouter.get("/messages/:userId", authUser, async(req, res)=>{
     try{
        const userId = req.params.userId;
 
-       const message = await Message.find({
+       if(!userId){
+        throw new Error("User id is required!!");
+       }
+
+       const messages = await Message.find({
         $or : [
             {fromUser : req.user._id, toUser : userId},
             {fromUser : userId, toUser : req.user._id}
         ]
-       }).sort({created : 1})
-       res.json(message);
+       }).sort({ createdAt : 1 });
+
+       res.json(messages);
     }
-    catch{
-        res.json({
-            message : "Failed to get message!"
+    catch(err){
+        res.status(400).json({
+            message : err.message || "Failed to get message!"
         })
     }
 })

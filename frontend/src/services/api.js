@@ -1,17 +1,18 @@
 import axios from 'axios';
+import { parseApiError } from '../utils/apiError';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api',
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    error.parsedMessage = parseApiError(error);
     return Promise.reject(error);
   }
 );

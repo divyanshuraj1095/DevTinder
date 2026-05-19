@@ -10,16 +10,7 @@ export const updateProfile = async (profileData) => {
   return res.data;
 };
 
-export const getFeed = async () => {
-  const res = await api.get('/feed');
+export const getFeed = async (page = 1, limit = 10) => {
+  const res = await api.get('/feed', { params: { page, limit } });
   return res.data;
-};
-
-export const exploreUsers = async (filters = {}) => {
-  const res = await api.get('/feed');
-  return res.data;
-};
-
-export const getProfileById = async (id) => {
-  throw new Error("Profile by ID not implemented in backend");
 };
