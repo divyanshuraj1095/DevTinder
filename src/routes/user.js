@@ -45,7 +45,6 @@ userRouter.get("/user/connections", authUser, async(req, res)=>{
         }).populate("fromUserId", ["firstName", "lastName", "age", "gender", "about", "photoUrl", "skills"])
           .populate("toUserId", ["firstName", "lastName", "age", "gender", "about", "photoUrl", "skills"]);
 
-          console.log("wdwww")
 
         const data = connectionRequest.map((x)=>{
             if(x.fromUserId._id.toString() === loggedUser._id.toString()){

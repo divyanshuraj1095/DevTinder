@@ -3,12 +3,43 @@ const chatRouter = express.Router();
 const Message = require("../models/message.js");
 const User = require("../models/user.js");
 const {authUser} = require("../middlewares/auth.js")
+const ConnectionRequest = require("../models/connectionRequest.js")
 
 chatRouter.post("/message", authUser, async(req, res)=>{
     try{
-        
+
+        console.log("check!!")
         const toUserId = req.body.toUser;
         const text = req.body.text;
+
+
+
+        if(!toUserId || !text){
+            throw new Error("Fields are required!!");
+        }
+        console.log("Check")
+
+        const loggedUser = req.user;
+
+        const isExistingUser = await ConnectionRequest.findOne({
+            $or : [
+                {
+            fromUserId: loggedUser._id,
+            toUserId: toUserId,
+            status: "accepted"
+        },
+        {
+            fromUserId: toUserId,
+            toUserId: loggedUser._id,
+            status: "accepted"
+        }
+        ]
+        });
+        console.log("check")
+
+        if(!isExistingUser){
+            throw new Error("Person has to be your connection!!!");
+        }
         
         const message = new Message({
             fromUser : req.user._id,
@@ -25,7 +56,7 @@ chatRouter.post("/message", authUser, async(req, res)=>{
     }
     catch(err){
         res.status(400).json({
-            message : "Unable to send message!!"
+            message : err.message
         })
     }
 });

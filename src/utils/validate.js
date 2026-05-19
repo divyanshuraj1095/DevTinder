@@ -28,8 +28,6 @@ const validateUpdate = (req) =>{
     }
 }
 
-
-
 module.exports = {
     validateSinUp,
     validateUpdate,
