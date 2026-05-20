@@ -18,7 +18,9 @@ app.use(cors({
    credentials: true
 }));
 
-
+app.get("/", (req, res) => {
+    res.send("DevTinder Backend Running");
+});
 app.use('/',authRouter);
 app.use('/',profileRouter);
 app.use('/',requestRouter);
