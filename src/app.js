@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require("cors");
-require("dotenv").config();
+require("dotenv").config({ path: "./.env" });
 const connectDB = require("./config/database.js");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie-parser");
@@ -14,7 +14,7 @@ const app = express();
 app.use(cookie());
 app.use(express.json());
 app.use(cors({
-   origin: "http://localhost:5173",
+   origin: process.env.CLIENT_URL,
    credentials: true
 }));
 
