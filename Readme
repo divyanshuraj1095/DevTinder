@@ -1,78 +1,201 @@
 # 🚀 DevTinder
 
-DevTinder is a full-stack developer networking platform that allows developers to connect, interact, and collaborate based on their skills and interests.
+DevTinder is a full-stack developer networking platform where developers can connect, collaborate, and build meaningful professional relationships based on their skills and interests.
 
 ---
 
-## 🌟 Features
+# 🌟 Features
 
-### 👤 User
-- User authentication (Signup/Login)
-- Create and update developer profile
-- View other developers
-- Send connection requests
-- Accept/Reject requests
+## 👤 Authentication
+- Secure Signup & Login
+- JWT-based Authentication
+- Protected Routes
+- Cookie-based Session Handling
 
-### 🔗 Networking
-- Match developers based on skills/interests
-- View connections
-- Explore new developers
+## 🧑‍💻 Developer Profiles
+- Create and Edit Profile
+- Add Skills, Bio, and Interests
+- View Other Developer Profiles
+
+## 🤝 Connection System
+- Send Connection Requests
+- Accept / Reject Requests
+- View All Connections
+- Explore New Developers
+
+## 💬 Networking
+- Discover developers with similar interests
+- Build your professional network
+- Interactive developer feed
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
-### Frontend
+## Frontend
 - React.js
+- React Router
+- Axios
 - CSS3
 
-### Backend
+## Backend
 - Node.js
 - Express.js
 
-### Database
-- MongoDB (Mongoose)
+## Database
+- MongoDB
+- Mongoose
 
-### Authentication
+## Authentication & Security
 - JWT (JSON Web Tokens)
+- bcrypt.js
+- cookie-parser
+- CORS
 
 ---
 
-## ⚙️ Setup Instructions
+# 📁 Project Structure
 
-### 🔹 Clone the repository
+```bash
+DevTinder/
+│
+├── backend/
+│   ├── src/
+│   │   ├── config/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   └── app.js
+│   │
+│   ├── package.json
+│   └── .env
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+└── README.md
+```
+
+---
+
+# ⚙️ Installation & Setup
+
+## 1️⃣ Clone the Repository
+
 ```bash
 git clone https://github.com/divyanshuraj1095/DevTinder.git
 cd DevTinder
+```
 
-🔧 Backend Setup
+---
+
+# 🔧 Backend Setup
+
+```bash
 cd backend
 npm install
+```
 
-🌐 Environment Variables
-Backend
-PORT
-MONGO_URI
-JWT_SECRET
+## Create `.env` File
 
-Frontend
-VITE_BACKEND_URL
+```env
+PORT=7777
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
 
-Run backend:
-npm run dev (nodemon)
+## Run Backend Server
 
-🚀 Future Improvements
-Real-time chat system
-Advanced matching algorithm
-Notifications system
-Profile recommendations
+```bash
+npm run dev
+```
 
-DevTinder/
-│── backend/
-│── frontend/
-│── README.md
+---
 
-📬 Contact
-GitHub: https://github.com/divyanshuraj1095
-LinkedIn: https://www.linkedin.com/
+# 🎨 Frontend Setup
 
+```bash
+cd frontend
+npm install
+```
+
+## Create `.env` File
+
+```env
+VITE_BACKEND_URL=http://localhost:7777
+```
+
+## Run Frontend
+
+```bash
+npm run dev
+```
+
+---
+
+# 🚀 Future Improvements
+
+- ✅ Real-time Chat System
+- ✅ WebSocket Integration
+- ✅ Notifications System
+- ✅ Advanced Matching Algorithm
+- ✅ Profile Recommendations
+- ✅ Dark Mode
+- ✅ Video Calling / Collaboration
+- ✅ AI-based Skill Recommendations
+
+---
+
+# 📸 Screenshots
+
+![Screenshot](./images/features.jpg)
+![Screenshot](./images/signin.jpg)
+![Screenshot](./images/signup.jpg)
+![Screenshot](./images/Feed.jpg)
+![Screenshot](./images/chat.jpg)
+![Screenshot](./images/profile.jpg)
+![Screenshot](./images/connection.jpg)
+![Screenshot](./images/requests.jpg)
+
+---
+
+# 🌐 Deployment
+
+## Frontend
+- Vercel / Netlify
+
+## Backend
+- Render / Railway
+
+## Database
+- MongoDB Atlas
+
+---
+
+# 🤝 Contributing
+
+Contributions are welcome!
+
+1. Fork the repository
+2. Create a new branch
+3. Commit your changes
+4. Push the branch
+5. Open a Pull Request
+
+---
+
+# 📬 Contact
+- 
+
+## 👨‍💻 Divyanshu Raj
+- E-mail: divyanshuraj23102005@gmail.com
+- GitHub: https://github.com/divyanshuraj1095
+- LinkedIn: https://www.linkedin.com/in/divyanshu-raj-37017a306
+
+---
+
+# ⭐ Show Your Support
+
+If you liked this project, give it a ⭐ on GitHub!
